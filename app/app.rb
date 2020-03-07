@@ -20,11 +20,26 @@ class App
   end
 
   def can_accept_answer?(topic)
-    topic && allow_accepted_answers_on_category?(topic.category_id) && (
-      is_staff? || (
-        authenticated? && ((!topic.closed? && topic.user_id == current_user.id) ||
-          (current_user.trust_level >= SiteSetting.accept_all_solutions_trust_level))
-      )
-    )
+    if topic_cant_be_answered?(topic)
+      return false
+    elsif user_can_override?
+      return true
+    elsif user_can_accept?(topic)
+      return true
+    end
+  end
+
+  def topic_cant_be_answered?(topic)
+    !(topic && allow_accepted_answers_on_category?(topic.category_id))
+  end
+
+  def user_can_override?
+    return false unless authenticated?
+
+    return is_staff? || (current_user.trust_level >= SiteSetting.accept_all_solutions_trust_level)
+  end
+
+  def user_can_accept?(topic)
+    return (!topic.closed? && topic.user_id == current_user.id)
   end
 end
