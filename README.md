@@ -1,2 +1,2 @@
 # sam_saffron_answer
-Refactoring exercise based on https://twitter.com/codinghorror/status/1232103977178693632
+I saw this tweet https://twitter.com/codinghorror/status/1232103977178693632 and thought it would be a good place for a refactoring exercise. This repo has the original code from the screenshot
